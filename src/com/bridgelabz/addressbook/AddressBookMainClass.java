@@ -17,7 +17,7 @@ public class AddressBookMainClass {
 	public static void addContactDetails() {
 
 		System.out.println("Enter your choice");
-		System.out.println("1 : Add new contact    2 : Edit contact ");
+		System.out.println("1 : Add new contact    2 : Edit contact   3 : Delete Contact");
 		int choice = sc.nextInt();
 		switch (choice) {
 		case 1:
@@ -48,6 +48,12 @@ public class AddressBookMainClass {
 			System.out.println("Please Enter the Person name to Edit ");
 			String name = sc.next();
 			editContact(name);
+			addContactDetails();
+			break;
+		case 3:
+			System.out.println("Enter the person Name");
+			String deletename = sc.next();
+			deleteContactDetails(deletename);
 			addContactDetails();
 			break;
 
@@ -134,6 +140,28 @@ public class AddressBookMainClass {
 				System.out.println("No Conatct Details available :");
 			}
 		}
+	}
+
+	public static void deleteContactDetails(String name) {
+		List<Contact> contactDetails = addressBook.getContacts();
+		for (int i = 0; i <= contactDetails.size() - 1; i++) {
+
+			int value = 0;
+			Contact contactperson = contactDetails.get(i);
+			if (contactperson.getFirstName().equals(name)) {
+				contactperson.setAddress("");
+				contactperson.setCity("");
+				contactperson.setFirstName("");
+				contactperson.setLastName("");
+				contactperson.setPhone(value);
+				contactperson.setState("");
+				contactperson.setZip(value);
+				contactDetails.set(i, contactperson);
+				addressBook.setContacts(contactDetails);
+			}
+		}
+		System.out.println("Contact deleted Successfully");
+		displayContacts(addressBook);
 	}
 
 }
