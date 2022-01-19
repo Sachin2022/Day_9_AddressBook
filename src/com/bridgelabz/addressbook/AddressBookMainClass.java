@@ -7,7 +7,6 @@ import java.util.Scanner;
 public class AddressBookMainClass {
 	public static AddressBook addressBook = new AddressBook();
 	public static List<Contact> contactList = new ArrayList<>();
-	public static Scanner sc = new Scanner(System.in);
 
 	public static void main(String[] args) {
 		System.out.println("Welcome to Address Book Program");
@@ -15,59 +14,89 @@ public class AddressBookMainClass {
 	}
 
 	public static void addContactDetails() {
+		Scanner sc = new Scanner(System.in);
+		String value;
 
-		System.out.println("Enter your choice");
-		System.out.println("1 : Add new contact    2 : Edit contact   3 : Delete Contact");
-		int choice = sc.nextInt();
-		switch (choice) {
-		case 1:
-			System.out.println("Enter the First Name");
-			String firstName = sc.next();
-			System.out.println("Enter the Last Name");
-			String lastName = sc.next();
-			System.out.println("Enter The Address");
-			String address = sc.next();
-			System.out.println("Enter the city");
-			String city = sc.next();
-			System.out.println("Enter the state");
-			String state = sc.next();
-			System.out.println("Enter the zip Code");
-			int zip = sc.nextInt();
-			System.out.println("Enter the Phone number");
-			long phone = sc.nextLong();
-			Contact contact = new Contact(firstName, lastName, address, city, state, zip, phone);
+		System.out.println("Do You Want Use Address Book Press Yes for Continue");
+		value = sc.next();
 
-			contactList.add(contact);
-			addressBook.setContacts(contactList);
-			displayContacts(addressBook);
-			System.out.println("List of conatct" + contactList);
-			addContactDetails();
-			break;
-		case 2:
+		while (value.equals("yes")) {
 
-			System.out.println("Please Enter the Person name to Edit ");
-			String name = sc.next();
-			editContact(name);
-			addContactDetails();
-			break;
-		case 3:
-			System.out.println("Enter the person Name");
-			String deletename = sc.next();
-			deleteContactDetails(deletename);
-			addContactDetails();
-			break;
+			System.out.println("Enter your choice");
+			System.out.println("1 : Add new contact    2 : Edit contact   3 : Delete Contact  4 : Display");
+			int choice = sc.nextInt();
+			switch (choice) {
+			case 1:
+				System.out.println("Enter the First Name");
+				String firstName = sc.next();
+				System.out.println("Enter the Last Name");
+				String lastName = sc.next();
+				System.out.println("Enter the Address");
+				String address = sc.next();
+				System.out.println("Enter the city");
+				String city = sc.next();
+				System.out.println("Enter the state");
+				String state = sc.next();
+				System.out.println("Enter the zip Code");
+				int zip = sc.nextInt();
+				System.out.println("Enter the Phone number");
+				long phone = sc.nextLong();
+				Contact contact = new Contact(firstName, lastName, address, city, state, zip, phone);
 
-		default:
-			System.out.println("Please Enter correct choice");
-			break;
+				contactList.add(contact);
+				addressBook.setContacts(contactList);
+				break;
+
+			case 2:
+
+				System.out.println("Please Enter the Person name to Edit ");
+				String name = sc.next();
+				editContact(name);
+				break;
+
+			case 3:
+				System.out.println("Enter the person Name");
+				String deletename = sc.next();
+				deleteContactDetails(deletename);
+				break;
+
+			case 4:
+				displayContacts(addressBook);
+				break;
+
+			default:
+				System.out.println("Please Enter correct choice");
+				break;
+			}
+
 		}
-
-		sc.close();
 
 	}
 
-	public static void editContact(String name) {
+	public static void deleteContactDetails(String name) {
+		List<Contact> contactDetails = addressBook.getContacts();
+		for (int i = 0; i <= contactDetails.size() - 1; i++) {
 
+			int value = 0;
+			Contact contactperson = contactDetails.get(i);
+			if (contactperson.getFirstName().equals(name)) {
+				contactperson.setAddress("");
+				contactperson.setCity("");
+				contactperson.setFirstName("");
+				contactperson.setLastName("");
+				contactperson.setPhone(value);
+				contactperson.setState("");
+				contactperson.setZip(value);
+				contactDetails.set(i, contactperson);
+				addressBook.setContacts(contactDetails);
+			}
+		}
+		System.out.println("Contact deleted Successfully");
+		displayContacts(addressBook);
+	}
+
+	public static void editContact(String name) {
+		Scanner sc = new Scanner(System.in);
 		List<Contact> contactDetails = addressBook.getContacts();
 		for (int i = 0; i <= contactDetails.size() - 1; i++) {
 
@@ -120,7 +149,6 @@ public class AddressBookMainClass {
 				addressBook.setContacts(contactDetails);
 			}
 		}
-
 		displayContacts(addressBook);
 	}
 
@@ -141,27 +169,4 @@ public class AddressBookMainClass {
 			}
 		}
 	}
-
-	public static void deleteContactDetails(String name) {
-		List<Contact> contactDetails = addressBook.getContacts();
-		for (int i = 0; i <= contactDetails.size() - 1; i++) {
-
-			int value = 0;
-			Contact contactperson = contactDetails.get(i);
-			if (contactperson.getFirstName().equals(name)) {
-				contactperson.setAddress("");
-				contactperson.setCity("");
-				contactperson.setFirstName("");
-				contactperson.setLastName("");
-				contactperson.setPhone(value);
-				contactperson.setState("");
-				contactperson.setZip(value);
-				contactDetails.set(i, contactperson);
-				addressBook.setContacts(contactDetails);
-			}
-		}
-		System.out.println("Contact deleted Successfully");
-		displayContacts(addressBook);
-	}
-
 }
